@@ -13,11 +13,20 @@ class Board extends Component{
             ]
         }
         this.eachNote = this.eachNote.bind(this)
+        this.updateNote = this.updateNote.bind(this)
+    }
+
+    updateNote(newText, i){
+		this.setState(prevState => ({
+			notes: prevState.notes.map(
+				(note,ind) => (ind !== i) ? note : {...note, note: newText}
+			)
+		}))
     }
 
     eachNote(note, i){
         return (
-            <Note index={i} key={i}>{note.note}</Note>
+            <Note index={i} key={i} onChange={this.updateNote}>{note.note}</Note>
         )
     }
 

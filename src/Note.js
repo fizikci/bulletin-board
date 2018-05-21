@@ -39,7 +39,7 @@ class Note extends Component {
     renderHtml(){
         return (
             <div className="note">
-                <p>Learn React</p>
+                <p>{this.props.children}</p>
                 <span>
                     <button id="edit" onClick={this.edit}><FaPencil/></button>
                     <button id="remove" onClick={this.remove}><FaTrash/></button>

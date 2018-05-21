@@ -19,6 +19,7 @@ class Note extends Component {
         this.setState({editing:true})
     }
     save(){
+        alert(this._newText.value)
         this.setState({editing:false})
     }
     remove(){
@@ -29,7 +30,7 @@ class Note extends Component {
         return (
             <div className="note">
                 <form>
-                    <textarea/>
+                    <textarea ref={input => this._newText = input}/>
                     <button id="save" onClick={this.save}><FaFloppyO/></button>
                 </form>
             </div>

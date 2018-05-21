@@ -14,19 +14,26 @@ class Board extends Component{
         }
         this.eachNote = this.eachNote.bind(this)
         this.updateNote = this.updateNote.bind(this)
+        this.removeNote = this.removeNote.bind(this)
     }
 
-    updateNote(newText, i){
+    updateNote(newText, id){
 		this.setState(prevState => ({
 			notes: prevState.notes.map(
-				(note,ind) => (ind !== i) ? note : {...note, note: newText}
+				note => (note.id !== id) ? note : {...note, note: newText}
 			)
 		}))
     }
 
-    eachNote(note, i){
+    removeNote(id){
+		this.setState(prevState => ({
+			notes: prevState.notes.filter(note => note.id!==id)
+		}))
+    }
+
+    eachNote(note){
         return (
-            <Note index={i} key={i} onChange={this.updateNote}>{note.note}</Note>
+            <Note key={note.id} id={note.id} onChange={this.updateNote} onRemove={this.removeNote}>{note.note}</Note>
         )
     }
 

@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import FaPencil from 'react-icons/lib/fa/pencil'
 import FaTrash from 'react-icons/lib/fa/trash'
 import FaFloppyO from 'react-icons/lib/fa/floppy-o'
+import FaClose from 'react-icons/lib/fa/close'
+
 
 class Note extends Component {
 
@@ -14,6 +16,32 @@ class Note extends Component {
         this.renderForm = this.renderForm.bind(this)
         this.renderHtml = this.renderHtml.bind(this)
     }
+
+    componentWillMount() {
+		this.style = {
+			right: this.randomBetween(0, window.innerWidth - 150, 'px'),
+			top: this.randomBetween(0, window.innerHeight - 150, 'px'),
+			transform: `rotate(${this.randomBetween(-25, 25, 'deg')})`
+		}
+	}
+
+	randomBetween(x, y, s) {
+		return x + Math.ceil(Math.random() * (y-x)) + s
+	}
+
+    componentDidUpdate() {
+		if(this.state.editing) {
+			this._newText.focus()
+			this._newText.select()
+		}
+
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return (
+			this.props.children !== nextProps.children || this.state !== nextState
+		)
+	}
 
     edit(){
         this.setState({editing:true})
@@ -29,17 +57,18 @@ class Note extends Component {
 
     renderForm(){
         return (
-            <div className="note">
+            <div className="note" style={this.style}>
                 <form onSubmit={this.save}>
-                    <textarea ref={input => this._newText = input}/>
+                    <textarea ref={input => this._newText = input} defaultValue={this.props.children}/>
                     <button id="save"><FaFloppyO/></button>
+                    <button><FaClose/></button>
                 </form>
             </div>
         )                
     }
     renderHtml(){
         return (
-            <div className="note">
+            <div className="note" style={this.style}>
                 <p>{this.props.id}. {this.props.children}</p>
                 <span>
                     <button id="edit" onClick={this.edit}><FaPencil/></button>

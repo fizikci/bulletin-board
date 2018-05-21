@@ -7,11 +7,7 @@ class Board extends Component{
     constructor(props){
         super(props)
         this.state = {
-            notes: [
-                // {id:33, note:'Order printer ink'},
-                // {id:34, note:'Email John'},
-                // {id:35, note:'Start Givery project'}
-            ]
+            notes: []
         }
         this.eachNote = this.eachNote.bind(this)
         this.updateNote = this.updateNote.bind(this)
@@ -57,7 +53,13 @@ class Board extends Component{
 
     eachNote(note){
         return (
-            <Note key={note.id} id={note.id} onChange={this.updateNote} onRemove={this.removeNote}>{note.note}</Note>
+            <Note 
+                    key={note.id} 
+                    id={note.id} 
+                    onChange={this.updateNote} 
+                    onRemove={this.removeNote}>
+                {note.note}
+            </Note>
         )
     }
 

@@ -8,9 +8,9 @@ class Board extends Component{
         super(props)
         this.state = {
             notes: [
-                {id:33, note:'Order printer ink'},
-                {id:34, note:'Email John'},
-                {id:35, note:'Start Givery project'}
+                // {id:33, note:'Order printer ink'},
+                // {id:34, note:'Email John'},
+                // {id:35, note:'Start Givery project'}
             ]
         }
         this.eachNote = this.eachNote.bind(this)
@@ -19,11 +19,24 @@ class Board extends Component{
         this.addNote = this.addNote.bind(this)
     }
 
-    addNote(){
+    componentWillMount(){
+        if(!this.props.count)
+            return;
+
+        var self = this;
+        
+        fetch(`https://baconipsum.com/api/?type=all-meat&sentences=${this.props.count}`)
+            .then(res => res.json())
+            .then(res => res[0]
+                .split('. ')
+                .forEach(s => self.addNote(s.substring(0,25))))
+    }
+
+    addNote(txt){
         this.setState(prevState => ({
             notes: [
                 ...prevState.notes,
-                {id: prevState.notes.reduce((acc,curr) => Math.max(acc, curr.id),0)+1 , note:'New Note', editing:true}
+                {id: prevState.notes.reduce((acc,curr) => Math.max(acc, curr.id),0)+1 , note:txt||'New Note'}
             ]
         }))
     }
@@ -38,7 +51,7 @@ class Board extends Component{
 
     removeNote(id){
 		this.setState(prevState => ({
-			notes: prevState.notes.filter(note => note.id!==id)
+			notes: prevState.notes.filter(note => note.id !== id)
 		}))
     }
 

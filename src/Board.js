@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Note from './Note'
+import FaPlus from 'react-icons/lib/fa/plus'
 
 class Board extends Component{
 
@@ -15,6 +16,16 @@ class Board extends Component{
         this.eachNote = this.eachNote.bind(this)
         this.updateNote = this.updateNote.bind(this)
         this.removeNote = this.removeNote.bind(this)
+        this.addNote = this.addNote.bind(this)
+    }
+
+    addNote(){
+        this.setState(prevState => ({
+            notes: [
+                ...prevState.notes,
+                {id: prevState.notes.reduce((acc,curr) => Math.max(acc, curr.id),0)+1 , note:'New Note', editing:true}
+            ]
+        }))
     }
 
     updateNote(newText, id){
@@ -41,6 +52,7 @@ class Board extends Component{
         return (
             <div className="board">
                 {this.state.notes.map(this.eachNote)}
+                <button id="add" onClick={this.addNote}><FaPlus/></button>
             </div>
         )
     }
